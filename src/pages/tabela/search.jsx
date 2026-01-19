@@ -396,7 +396,7 @@ function Search() {
                                     <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Crime Principal</span> <span className="text-blue-400 font-bold">{Array.isArray(item.crimes) ? item.crimes.map(t => t.nome_crime).join(', ') : 'N/I'}</span></p>
                                     <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Localização</span> {item.cidade_atuacao}</p>
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Cor da pele</span> {item.cor_pele}</p>
-                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Altura aproximada</span> {item.cor_olho}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Cor do olho</span> {item.cor_olho}</p>
                                     <p className='text-gray-400'>
                                         <span className='text-gray-600 uppercase text-[10px] block'>Tatuagens</span>
                                         {Array.isArray(item.tatuagens) ? item.tatuagens.map(t => t.regiao).join(', ') : 'N/I'}
@@ -490,7 +490,7 @@ function Search() {
                                                 {/* GALERIA DE FOTOS (TATUAGENS / CICATRIZES) */}
                                                 <div>
                                                     <span className="text-[10px] text-blue-500 uppercase font-bold block mb-3 tracking-widest">
-                                                        Galeria de Identificadores (Clique para ampliar)
+                                                        Galeria de Identificadores
                                                     </span>
                                                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                                         {item.fotos?.filter(f => !f.is_main).length > 0 ? (
