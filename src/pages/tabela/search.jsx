@@ -131,6 +131,31 @@ function Search() {
         return `${dia}/${mes}/${ano}`;
     };
 
+    const menorDeIdade = (dataNascimento) => {
+        if (!dataNascimento) return "Não";
+
+        const dataLimpa = dataNascimento.split('T')[0];
+        const [ano, mes, dia] = dataLimpa.split('-').map(Number);
+
+        if (!ano || !mes || !dia) return "Não";
+
+        const hoje = new Date();
+        let idade = hoje.getFullYear() - ano;
+
+        const aniversarioEsteAno = new Date(
+            hoje.getFullYear(),
+            mes - 1,
+            dia
+        );
+
+        if (hoje < aniversarioEsteAno) {
+            idade--;
+        }
+
+        return idade < 18 ? "Sim" : "Não";
+    };
+
+
     const limparFiltros = () => {
         setFiltros({ busca: '', vulgo: '', data_nascimento: '', cor_pele: '', crime: [], cidade_atuacao: '', info_adicional: '', tatuagem: [], cor_olho: '', integrante_faccao: '' });
         setIsRG(false);
@@ -371,6 +396,7 @@ function Search() {
                                     <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Crime Principal</span> <span className="text-blue-400 font-bold">{Array.isArray(item.crimes) ? item.crimes.map(t => t.nome_crime).join(', ') : 'N/I'}</span></p>
                                     <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Localização</span> {item.cidade_atuacao}</p>
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Cor da pele</span> {item.cor_pele}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Altura aproximada</span> {item.cor_olho}</p>
                                     <p className='text-gray-400'>
                                         <span className='text-gray-600 uppercase text-[10px] block'>Tatuagens</span>
                                         {Array.isArray(item.tatuagens) ? item.tatuagens.map(t => t.regiao).join(', ') : 'N/I'}
@@ -379,6 +405,7 @@ function Search() {
 
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Informação adicional</span> {item.info_adicional}</p>
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Altura aproximada</span> {item.altura_aproximada}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Menor de idade</span> {menorDeIdade(item.data_nascimento)}</p>
 
 
 
@@ -435,6 +462,10 @@ function Search() {
                                                     <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
                                                         <span className="text-[10px] text-gray-500 uppercase font-bold block">Altura aproximada</span>
                                                         <p className="text-sm font-medium">{item.altura_aproximada}</p>
+                                                    </div>
+                                                    <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
+                                                        <span className="text-[10px] text-gray-500 uppercase font-bold block">Menor de idade</span>
+                                                        <p className="text-sm font-medium">{menorDeIdade(item.data_nascimento)}</p>
                                                     </div>
                                                     <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
                                                         <span className="text-[10px] text-gray-500 uppercase font-bold block">Tatuagens</span>
