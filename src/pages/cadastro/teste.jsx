@@ -20,6 +20,7 @@ function Teste() {
 
   const [fotoPrincipalBase64, setFotoPrincipalBase64] = useState(null);
   const [galeriaBase64, setGaleriaBase64] = useState([]);
+  const [notificacao, setNotificacao] = useState("");
 
   const opcoesOlhos = ["Preto", "Castanho claro", "Castanho escuro", "Verde", "Azul", "Não sei"];
   const opcoesPele = ["Branco", "Preto", "Parda", "Vermelho", "Amarelo"];
@@ -45,6 +46,11 @@ function Teste() {
     if (!/^\d{2}\/\d{2}\/\d{4}$/.test(data)) return null;
     const [d, m, y] = data.split('/');
     return `${y}-${m}-${d}`;
+  };
+
+  const mostrarNotificacao = (msg) => {
+    setNotificacao(msg);
+    setTimeout(() => setNotificacao(""), 3000);
   };
 
   /* ======================= HANDLERS DE INPUTS ======================= */
@@ -124,7 +130,7 @@ function Teste() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token_nexus');
-    if (!token) return alert('Usuário não autenticado.');
+    if (!token) return mostrarNotificacao('Usuário não autenticado.');
 
     const dataISO = formatarDataParaISO(formData.data_nascimento);
     if (!dataISO) return alert('Data de nascimento inválida.');
@@ -147,19 +153,25 @@ function Teste() {
       });
 
       if (response.ok) {
-        alert('Registro concluído com sucesso!');
-        window.location.reload(); 
+        mostrarNotificacao('Registro concluído com sucesso!');
+        window.location.reload();
       } else {
         const err = await response.json();
-        alert(`Erro: ${err.detail || 'Falha no cadastro'}`);
+        mostrarNotificacao(`Erro: ${err.detail || 'Falha no cadastro'}`);
       }
     } catch (err) {
-      alert('Erro de conexão com o servidor.');
+      mostrarNotificacao('Erro de conexão com o servidor.');
     }
   };
 
   return (
+
     <div className="min-h-screen bg-black text-white font-sans antialiased">
+      {notificacao && (
+        <div className="fixed top-4 right-4 bg-blue-600 px-6 py-3 rounded-lg shadow-xl z-50 animate-bounce">
+          {notificacao}
+        </div>
+      )}
       <Header />
 
       <main className="max-w-5xl mx-auto p-4 md:p-10">
@@ -274,7 +286,7 @@ function Teste() {
             {/* ANEXOS */}
             <section className="space-y-6">
               <h2 className="text-blue-500 font-bold uppercase text-xs tracking-widest border-b border-gray-800 pb-2">Anexos e Fotos</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
                   <label className="block text-xs font-semibold text-gray-400 uppercase">Foto Principal (Perfil) *</label>

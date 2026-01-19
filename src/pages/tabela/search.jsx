@@ -395,13 +395,17 @@ function Search() {
 
                                 <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-sm">
                                     <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Identidade</span> RG: {formatarRG(item.nr_rg)}</p>
-                                    <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Crime Principal</span> <span className="text-blue-400 font-bold">{Array.isArray(item.crimes) ? item.crimes.map(t => t.nome_crime).join(', ') : 'N/I'}</span></p>
+                                    <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Crime Principal</span> <span className="text-blue-400 font-bold">{Array.isArray(item.crimes) && item.crimes.length > 0
+                                            ? item.crimes.map(t => t.nome_crime).join(', ')
+                                            : 'Não informado'}</span></p>
                                     <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Localização</span> {item.cidade_atuacao || "Não informado."}</p>
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Cor da pele</span> {item.cor_pele || "Não informado."}</p>
-                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Altura aproximada</span> {item.cor_olho || "Não informado."}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Cor do olho</span> {item.cor_olho || "Não informado."}</p>
                                     <p className='text-gray-400'>
                                         <span className='text-gray-600 uppercase text-[10px] block'>Tatuagens</span>
-                                        {Array.isArray(item.tatuagens) ? item.tatuagens.map(t => t.regiao).join(', ') : 'N/I'}
+                                        {Array.isArray(item.tatuagens) && item.tatuagens.length > 0
+                                            ? item.tatuagens.map(t => t.regiao).join(', ')
+                                            : 'Não informado'}
                                     </p>
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Nascimento</span>{formatarDataBR(item.data_nascimento)}</p>
 
