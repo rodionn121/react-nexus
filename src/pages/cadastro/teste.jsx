@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import Header from '../../components/header/header.tsx'
-
+import Header from '../../components/header/Header'
 
 
 
