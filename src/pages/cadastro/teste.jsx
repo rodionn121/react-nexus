@@ -21,11 +21,11 @@ function Teste() {
   const [fotoPrincipalBase64, setFotoPrincipalBase64] = useState(null);
   const [galeriaBase64, setGaleriaBase64] = useState([]);
 
-  const opcoesOlhos = ["Preto", "Castanho", "Verde", "Azul"];
-  const opcoesPele = ["Branco", "Preto", "Parda"];
+  const opcoesOlhos = ["Preto", "Castanho claro", "Castanho escuro", "Verde", "Azul", "Não sei"];
+  const opcoesPele = ["Branco", "Preto", "Parda", "Vermelho", "Amarelo"];
   const opcoesFaccao = ["PCC", "CV", "TCP", "EIG", "Nenhuma"];
-  const opcoesTatuagem = ["Braço", "Pescoço", "Rosto", "Perna", "Costas", "Mão", "Peito", "Abdomên"];
-  const opcoesCrimes = ["Roubo", "Furto", "Tráfico", "Homicídio", "Porte Ilegal"];
+  const opcoesTatuagem = ["Rosto", "Pescoço", "Tórax", "Ombro direito", "Ombro esquerdo", "Braço direito", "Braço esquerdo", "Antebraço direito", "Antebraço esquerdo", "Mão direita", "Mão esquerda", "Costas", "Abdômen", "Coxa direita", "Coxa esquerda", "Panturrilha direita", "Panturrilha esquerda", "Pé direito", "Pé esquerdo"];
+  const opcoesCrimes = ["Roubo", "Furto", "Tráfico", "Homicídio", "Porte Ilegal", "Estelionato", "Estupro", "Latrocínio"];
 
   /* ======================= MÁSCARAS E AUXILIARES ======================= */
   const aplicarMascaraData = (value) =>

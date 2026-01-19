@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Header } from '../../components/header/header'
 import "./search.css"
 import {
     Dialog,
@@ -9,6 +8,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { Header } from '../../components/header/header'
 
 function Search() {
     /* =======================
@@ -285,6 +285,8 @@ function Search() {
                             <option value="Branco">Branco</option>
                             <option value="Preto">Preto</option>
                             <option value="Parda">Parda</option>
+                            <option value="Vermelho">Vermelho</option>
+                            <option value="Amarelo">Amarelo</option>
                         </select>
 
                         <select name="cor_olho" value={filtros.cor_olho} onChange={handleChange}
@@ -394,17 +396,17 @@ function Search() {
                                 <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-sm">
                                     <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Identidade</span> RG: {formatarRG(item.nr_rg)}</p>
                                     <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Crime Principal</span> <span className="text-blue-400 font-bold">{Array.isArray(item.crimes) ? item.crimes.map(t => t.nome_crime).join(', ') : 'N/I'}</span></p>
-                                    <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Localização</span> {item.cidade_atuacao}</p>
-                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Cor da pele</span> {item.cor_pele}</p>
-                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Cor do olho</span> {item.cor_olho}</p>
+                                    <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Localização</span> {item.cidade_atuacao || "Não informado."}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Cor da pele</span> {item.cor_pele || "Não informado."}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Altura aproximada</span> {item.cor_olho || "Não informado."}</p>
                                     <p className='text-gray-400'>
                                         <span className='text-gray-600 uppercase text-[10px] block'>Tatuagens</span>
                                         {Array.isArray(item.tatuagens) ? item.tatuagens.map(t => t.regiao).join(', ') : 'N/I'}
                                     </p>
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Nascimento</span>{formatarDataBR(item.data_nascimento)}</p>
 
-                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Informação adicional</span> {item.info_adicional}</p>
-                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Altura aproximada</span> {item.altura_aproximada}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Informação adicional</span> {item.info_adicional || "Não informado."}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Altura aproximada</span> {item.altura_aproximada || "Não informado."}</p>
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Menor de idade</span> {menorDeIdade(item.data_nascimento)}</p>
 
 
@@ -490,7 +492,7 @@ function Search() {
                                                 {/* GALERIA DE FOTOS (TATUAGENS / CICATRIZES) */}
                                                 <div>
                                                     <span className="text-[10px] text-blue-500 uppercase font-bold block mb-3 tracking-widest">
-                                                        Galeria de Identificadores
+                                                        Galeria de Identificadores (Clique para ampliar)
                                                     </span>
                                                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                                         {item.fotos?.filter(f => !f.is_main).length > 0 ? (
