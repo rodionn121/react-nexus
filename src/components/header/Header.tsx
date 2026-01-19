@@ -2,7 +2,7 @@ import './header.css';
 import Nexus from '../../assets/nexus.png';
 import { Link } from "react-router-dom";
 
-export function Header() {
+export default function Header() {
   return (
     <header className="header">
       <img src={Nexus} alt="Nexus Logo" />
