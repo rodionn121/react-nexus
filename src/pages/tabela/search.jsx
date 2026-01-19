@@ -106,6 +106,31 @@ function Search() {
         }
     };
 
+    const formatarRG = (rg) => {
+        if (!rg) return '---';
+
+        return rg
+            .toString()
+            .replace(/\D/g, '')
+            .replace(/(\d{2})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+            .substring(0, 13);
+    };
+
+    const formatarDataBR = (data) => {
+        if (!data) return '---';
+
+        // Garante que pega só a parte da data
+        const dataLimpa = data.split('T')[0];
+
+        const [ano, mes, dia] = dataLimpa.split('-');
+
+        if (!ano || !mes || !dia) return '---';
+
+        return `${dia}/${mes}/${ano}`;
+    };
+
     const limparFiltros = () => {
         setFiltros({ busca: '', vulgo: '', data_nascimento: '', cor_pele: '', crime: [], cidade_atuacao: '', info_adicional: '', tatuagem: [], cor_olho: '', integrante_faccao: '' });
         setIsRG(false);
@@ -342,7 +367,7 @@ function Search() {
                                 <div className="h-[1px] bg-gray-800 my-4"></div>
 
                                 <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-sm">
-                                    <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Identidade</span> RG: {item.nr_rg || '---'}</p>
+                                    <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Identidade</span> RG: {formatarRG(item.nr_rg)}</p>
                                     <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Crime Principal</span> <span className="text-blue-400 font-bold">{Array.isArray(item.crimes) ? item.crimes.map(t => t.nome_crime).join(', ') : 'N/I'}</span></p>
                                     <p className="text-gray-400"><span className="text-gray-600 uppercase text-[10px] block">Localização</span> {item.cidade_atuacao}</p>
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Cor da pele</span> {item.cor_pele}</p>
@@ -350,10 +375,10 @@ function Search() {
                                         <span className='text-gray-600 uppercase text-[10px] block'>Tatuagens</span>
                                         {Array.isArray(item.tatuagens) ? item.tatuagens.map(t => t.regiao).join(', ') : 'N/I'}
                                     </p>
-                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Nascimento</span> {item.data_nascimento}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Nascimento</span>{formatarDataBR(item.data_nascimento)}</p>
 
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Informação adicional</span> {item.info_adicional}</p>
-                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Altura aproximada</span> {item.altura_aproximada}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Altura aproximada</span> {item.altura_aproximada}</p>
 
 
 
@@ -369,7 +394,7 @@ function Search() {
                                         <DialogContent className="bg-[#0a0f1a] border border-gray-800 text-white max-w-2xl overflow-y-auto max-h-[90vh]">
                                             <DialogHeader className="border-b border-gray-800 pb-4">
                                                 <DialogTitle className="text-2xl font-bold text-blue-500 uppercase tracking-tighter">
-                                                     Informações
+                                                    Informações
                                                 </DialogTitle>
                                                 <DialogDescription className="text-gray-500 italic">
                                                     Informações completas do registro: {item.nome}
@@ -389,7 +414,7 @@ function Search() {
                                                     </div>
                                                     <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
                                                         <span className="text-[10px] text-gray-500 uppercase font-bold block">Documento (RG)</span>
-                                                        <p className="text-sm font-medium">{item.nr_rg || 'Não informado'}</p>
+                                                        <p className="text-sm font-medium">{formatarRG(item.nr_rg)}</p>
                                                     </div>
                                                     <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
                                                         <span className="text-[10px] text-gray-500 uppercase font-bold block">Localização de Atuação</span>
@@ -401,7 +426,7 @@ function Search() {
                                                     </div>
                                                     <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
                                                         <span className="text-[10px] text-gray-500 uppercase font-bold block">Data de Nascimento</span>
-                                                        <p className="text-sm font-medium">{item.data_nascimento || 'Não informado'}</p>
+                                                        <p className="text-sm font-medium">{formatarDataBR(item.data_nascimento)}</p>
                                                     </div>
                                                     <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
                                                         <span className="text-[10px] text-gray-500 uppercase font-bold block">Características Físicas</span>
