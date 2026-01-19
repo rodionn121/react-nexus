@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Header } from '../../components/header/header';
+import { Header } from '../../components/header/header'
 import "./search.css"
 import {
     Dialog,
@@ -352,7 +352,8 @@ function Search() {
                                     </p>
                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Nascimento</span> {item.data_nascimento}</p>
 
-                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Nascimento</span> {item.info_adicional}</p>
+                                    <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Informação adicional</span> {item.info_adicional}</p>
+                                     <p className='text-gray-400'><span className='text-gray-600 uppercase text-[10px] block'>Altura aproximada</span> {item.altura_aproximada}</p>
 
 
 
@@ -368,7 +369,7 @@ function Search() {
                                         <DialogContent className="bg-[#0a0f1a] border border-gray-800 text-white max-w-2xl overflow-y-auto max-h-[90vh]">
                                             <DialogHeader className="border-b border-gray-800 pb-4">
                                                 <DialogTitle className="text-2xl font-bold text-blue-500 uppercase tracking-tighter">
-                                                    Prontuário Detalhado
+                                                     Informações
                                                 </DialogTitle>
                                                 <DialogDescription className="text-gray-500 italic">
                                                     Informações completas do registro: {item.nome}
@@ -383,6 +384,10 @@ function Search() {
                                                         <p className="text-sm font-medium">{item.nome || 'Não informado'}</p>
                                                     </div>
                                                     <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
+                                                        <span className="text-[10px] text-gray-500 uppercase font-bold block">Vulgo</span>
+                                                        <p className="text-sm font-medium">{item.vulgo || 'Não informado'}</p>
+                                                    </div>
+                                                    <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
                                                         <span className="text-[10px] text-gray-500 uppercase font-bold block">Documento (RG)</span>
                                                         <p className="text-sm font-medium">{item.nr_rg || 'Não informado'}</p>
                                                     </div>
@@ -391,12 +396,24 @@ function Search() {
                                                         <p className="text-sm font-medium">{item.cidade_atuacao || 'Não informado'}</p>
                                                     </div>
                                                     <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
+                                                        <span className="text-[10px] text-gray-500 uppercase font-bold block">Crimes</span>
+                                                        <p className="text-sm font-medium">{Array.isArray(item.crimes) ? item.crimes.map(t => t.nome_crime).join(', ') : 'N/I'}</p>
+                                                    </div>
+                                                    <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
                                                         <span className="text-[10px] text-gray-500 uppercase font-bold block">Data de Nascimento</span>
                                                         <p className="text-sm font-medium">{item.data_nascimento || 'Não informado'}</p>
                                                     </div>
                                                     <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
                                                         <span className="text-[10px] text-gray-500 uppercase font-bold block">Características Físicas</span>
                                                         <p className="text-sm font-medium">Olhos {item.cor_olho}, Pele {item.cor_pele}</p>
+                                                    </div>
+                                                    <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
+                                                        <span className="text-[10px] text-gray-500 uppercase font-bold block">Altura aproximada</span>
+                                                        <p className="text-sm font-medium">{item.altura_aproximada}</p>
+                                                    </div>
+                                                    <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
+                                                        <span className="text-[10px] text-gray-500 uppercase font-bold block">Tatuagens</span>
+                                                        <p className="text-sm font-medium"> {Array.isArray(item.tatuagens) ? item.tatuagens.map(t => t.regiao).join(', ') : 'N/I'}</p>
                                                     </div>
                                                     <div className="bg-[#111827] p-3 rounded-lg border border-gray-800">
                                                         <span className="text-[10px] text-gray-500 uppercase font-bold block">Facção</span>
