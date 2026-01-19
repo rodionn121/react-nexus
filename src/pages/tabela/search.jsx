@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import Header from '../../components/header/header'
+import Header from '../../components/header/header.tsx'
+
 
 import "./search.css"
 import {

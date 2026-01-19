@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './registro.css'
-import Header from '../../components/header/header'
+import Header from '../../components/header/header.tsx'
+
 
 
 function Registro() {
