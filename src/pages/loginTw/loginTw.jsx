@@ -84,7 +84,7 @@ function LoginTw() {
                         {loading ? 'Carregando...' : 'Entrar'}
                     </button>
 
-                    <p className="text-blue-700">Esqueci minha senha</p>
+                    <p className="text-blue-700 cursor-pointer">Esqueci minha senha</p>
 
                     {erro && (
                         <p style={{ color: '#ff4444', fontSize: '0.8rem' }}>
