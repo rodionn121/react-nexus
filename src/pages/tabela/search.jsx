@@ -1,8 +1,5 @@
-import { useState, useEffect } from 'react';
-import Header from '../../components/header/header.tsx';
-
-
-
+import { useState, useEffect } from 'react'
+import { Header } from '../../components/header/header'
 import "./search.css"
 import {
     Dialog,
