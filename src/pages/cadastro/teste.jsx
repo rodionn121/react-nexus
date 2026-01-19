@@ -288,7 +288,7 @@ function Teste() {
               <h2 className="text-blue-500 font-bold uppercase text-xs tracking-widest border-b border-gray-800 pb-2">Anexos e Fotos</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-3">
+                {/* <div className="space-y-3">
                   <label className="block text-xs font-semibold text-gray-400 uppercase">Foto Principal (Perfil) *</label>
                   <div className="relative h-64 w-full bg-[#0a0f1a] border-2 border-dashed border-gray-700 rounded-2xl overflow-hidden flex items-center justify-center group">
                     {fotoPrincipalBase64 ? (
@@ -301,10 +301,10 @@ function Teste() {
                     )}
                     <input type="file" required accept="image/*" onChange={handleFotoPrincipalChange} className="absolute inset-0 opacity-0 cursor-pointer" />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="space-y-3">
-                  <label className="block text-xs font-semibold text-gray-400 uppercase">Galeria (Outras Fotos)</label>
+                  <label className="block text-xs font-semibold text-gray-400 uppercase">Fotos de tatuagens (Opcional)</label>
                   <div className="grid grid-cols-3 gap-3">
                     <label className="h-20 bg-[#0a0f1a] border-2 border-dashed border-gray-700 rounded-xl flex items-center justify-center cursor-pointer hover:bg-gray-900 transition-all">
                       <span className="text-xl text-blue-500">+</span>
