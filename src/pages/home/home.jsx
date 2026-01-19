@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './home.css'
 import Nexus from '../../assets/nexus.png'
-import Header from '../../components/header/header.tsx'
+import Header from '../../components/header/header'
+
 
 
 function Home() {
