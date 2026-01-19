@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Header } from '../../components/header/header'
+import { Header } from '../../components/header/Header.tsx'
 
 function Teste() {
   /* ======================= ESTADO INICIAL ======================= */
