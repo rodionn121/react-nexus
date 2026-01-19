@@ -1,0 +1,23 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Para separar logo dos links */
+    padding: 15px 40px;
+    background-color: var(--bg-primary);
+
+    img{
+        width: 40px;
+    }
+    nav a{
+        margin-left: 20px;
+        color: var(--text-primary);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+}
+
+a:hover {
+    text-decoration: underline;
+}
