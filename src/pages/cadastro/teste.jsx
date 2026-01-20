@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Header } from '../../components/header/header'
+import FullScreenLoading from '../../components/fullScreenLoading';
+
 
 function Teste() {
   /* ======================= ESTADO INICIAL ======================= */
@@ -24,7 +26,26 @@ function Teste() {
 
   const opcoesOlhos = ["Preto", "Castanho claro", "Castanho escuro", "Verde", "Azul", "Não sei"];
   const opcoesPele = ["Branco", "Preto", "Parda", "Vermelho", "Amarelo"];
-  const opcoesFaccao = ["PCC", "CV", "TCP", "EIG", "Nenhuma"];
+  const faccoes = ['Nenhuma',
+    'Primeiro Comando da Capital', 'Comando Vermelho', 'Família do Norte', 'Guardiões do Estado', 'Bonde dos 40', 'Bonde dos Malucos', 'Cerol Fino', 'Terceiro Comando Puro', 'Primeiro Grupo Catarinense', 'Amigos dos amigos', 'Bonde do Magrelo', 'Comando Revolucionário Brasileiro de Criminalidade', 'Primeiro Comando Puro'
+  ]
+
+  const siglasFaccao = {
+    'Primeiro Comando da Capital': 'PCC',
+    'Comando Vermelho': 'CV',
+    'Família do Norte': 'FDN',
+    'Guardiões do Estado': 'GDE',
+    'Bonde dos 40': 'Bonde dos 40',
+    'Bonde dos Malucos': 'Bonde dos malucos',
+    'Cerol Fino': 'Cerol Fino',
+    'Terceiro Comando Puro': 'TCP',
+    'Primeiro Grupo Catarinense': 'PGC',
+    'Amigos dos amigos': 'ADA',
+    'Bonde do Magrelo': 'Bonde do magrelo',
+    'Comando Revolucionário Brasileiro de Criminalidade': 'CRBC',
+    'Primeiro Comando Puro': 'PCP'
+  };
+
   const opcoesTatuagem = ["Rosto", "Pescoço", "Tórax", "Ombro direito", "Ombro esquerdo", "Braço direito", "Braço esquerdo", "Antebraço direito", "Antebraço esquerdo", "Mão direita", "Mão esquerda", "Costas", "Abdômen", "Coxa direita", "Coxa esquerda", "Panturrilha direita", "Panturrilha esquerda", "Pé direito", "Pé esquerdo"];
   const opcoesCrimes = ["Roubo", "Furto", "Tráfico", "Homicídio", "Porte Ilegal", "Estelionato", "Estupro", "Latrocínio"];
 
@@ -41,6 +62,19 @@ function Teste() {
     if (v.length > 3) v = v.substring(0, 3);
     return v.length === 3 ? v.replace(/(\d{1})(\d{2})/, '$1.$2') : v;
   };
+
+  const formatarRG = (rg) => {
+        if (!rg) return '---';
+
+        return rg
+            .toString()
+            .replace(/\D/g, '')
+            .replace(/(\d{2})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+            .substring(0, 9);
+    };
+
 
   const formatarDataParaISO = (data) => {
     if (!/^\d{2}\/\d{2}\/\d{4}$/.test(data)) return null;
@@ -60,6 +94,7 @@ function Teste() {
 
     if (name === 'data_nascimento') valor = aplicarMascaraData(value);
     if (name === 'altura_aproximada') valor = aplicarMascaraAltura(value);
+    if (name === 'nr_rg') valor = formatarRG(value);
 
     setFormData(prev => ({ ...prev, [name]: valor }));
   };
@@ -126,14 +161,25 @@ function Teste() {
     setGaleriaBase64(prev => prev.filter((_, i) => i !== index));
   };
 
+  const [loading, setLoading] = useState(false);
+
   /* ======================= SUBMIT ======================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const token = localStorage.getItem('token_nexus');
-    if (!token) return mostrarNotificacao('Usuário não autenticado.');
+    if (!token) {
+      mostrarNotificacao('Usuário não autenticado.');
+      return;
+    }
 
     const dataISO = formatarDataParaISO(formData.data_nascimento);
-    if (!dataISO) return alert('Data de nascimento inválida.');
+    if (!dataISO) {
+      alert('Data de nascimento inválida.');
+      return;
+    }
+
+    setLoading(true);
 
     const payload = {
       ...formData,
@@ -143,24 +189,51 @@ function Teste() {
     };
 
     try {
-      const response = await fetch('https://backend-nexus-md0p.onrender.com/pessoa/', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
+      const response = await fetch(
+        'https://backend-nexus-md0p.onrender.com/pessoa/',
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        }
+      );
+
+
+      if (response.status === 409) {
+        mostrarNotificacao("Registro já cadastrado");
+        return;
+    }
 
       if (response.ok) {
         mostrarNotificacao('Registro concluído com sucesso!');
-        window.location.reload();
+        setFormData({
+          nome: '',
+          vulgo: '',
+          nr_rg: '',
+          cor_pele: '',
+          altura_aproximada: '',
+          data_nascimento: '',
+          cor_olho: '',
+          cidade_atuacao: '',
+          info_adicional: '',
+          tatuagem: [],
+          crime: [],
+          integrante_faccao: 'Nenhuma',
+        });
+
+        setFotoPrincipalBase64(null);
+        setGaleriaBase64([]);
       } else {
         const err = await response.json();
         mostrarNotificacao(`Erro: ${err.detail || 'Falha no cadastro'}`);
       }
     } catch (err) {
       mostrarNotificacao('Erro de conexão com o servidor.');
+    } finally {
+      setLoading(false); // 🔥 GARANTIA ABSOLUTA
     }
   };
 
@@ -172,6 +245,7 @@ function Teste() {
           {notificacao}
         </div>
       )}
+      {loading && <FullScreenLoading text="Salvando registro..." />}
       <Header />
 
       <main className="max-w-5xl mx-auto p-4 md:p-10">
@@ -197,7 +271,7 @@ function Teste() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase">RG *</label>
-                  <input required type="text" name="nr_rg" value={formData.nr_rg} onChange={handleChange} className="w-full bg-[#0a0f1a] border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-blue-600 outline-none" />
+                  <input required type="text" name="nr_rg" value={formData.nr_rg} onChange={handleChange} placeholder='00.000.000-0' className="w-full bg-[#0a0f1a] border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-blue-600 outline-none" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase">Data Nascimento *</label>
@@ -269,7 +343,7 @@ function Teste() {
                 <div>
                   <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase">Facção</label>
                   <select name="integrante_faccao" value={formData.integrante_faccao} onChange={handleChange} className="w-full bg-[#0a0f1a] border border-gray-700 rounded-lg p-3 outline-none">
-                    {opcoesFaccao.map(o => <option key={o} value={o}>{o}</option>)}
+                    {faccoes.map(nome => <option key={nome} value={siglasFaccao[nome]}>{nome}</option>)}
                   </select>
                 </div>
                 <div>

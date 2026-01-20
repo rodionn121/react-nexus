@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './loginTw.css';
 import Nexus from '../../assets/nexus.png';
+import { AuthContext } from '../../context/AuthContext';
+import { AArrowDown } from 'lucide-react';
+
 
 function LoginTw() {
     const [email_user, setEmail] = useState('');
     const [password_user, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('');
-
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -35,8 +38,9 @@ function LoginTw() {
             const data = await response.json();
 
             if (response.ok) {
-                localStorage.setItem('token_nexus', data.access_token);
-                navigate('/home');
+                login(data.access_token);      // ✅ CONTEXTO
+                navigate('/home', { replace: true });
+                
             } else {
                 setErro('Credenciais inválidas');
             }
