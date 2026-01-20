@@ -304,7 +304,7 @@ function Teste() {
                 </div> */}
 
                 <div className="space-y-3">
-                  <label className="block text-xs font-semibold text-gray-400 uppercase">Fotos de tatuagens (Opcional)</label>
+                  <label className="block text-xs font-semibold text-gray-400 uppercase">Fotos das tatuagens (Opcional)</label>
                   <div className="grid grid-cols-3 gap-3">
                     <label className="h-20 bg-[#0a0f1a] border-2 border-dashed border-gray-700 rounded-xl flex items-center justify-center cursor-pointer hover:bg-gray-900 transition-all">
                       <span className="text-xl text-blue-500">+</span>
