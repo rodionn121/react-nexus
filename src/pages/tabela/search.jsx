@@ -52,6 +52,26 @@ function Search() {
 
     const opcoesOlhos = ["Preto", "Castanho claro", "Castanho escuro", "Verde", "Azul", "Não sei"];
     const opcoesFaccao = ["PCC", "CV", "Bonde do Magrelo", "BDM", "TCP", "FDN", "Outra"];
+    const faccoes = ['Nenhuma',
+        'Primeiro Comando da Capital', 'Comando Vermelho', 'Família do Norte', 'Guardiões do Estado', 'Bonde dos 40', 'Bonde dos Malucos', 'Cerol Fino', 'Terceiro Comando Puro', 'Primeiro Grupo Catarinense', 'Amigos dos amigos', 'Bonde do Magrelo', 'Comando Revolucionário Brasileiro de Criminalidade', 'Primeiro Comando Puro'
+    ]
+
+    const siglasFaccao = {
+        'Nenhuma': 'Nenhuma',
+        'Primeiro Comando da Capital': 'PCC',
+        'Comando Vermelho': 'CV',
+        'Família do Norte': 'FDN',
+        'Guardiões do Estado': 'GDE',
+        'Bonde dos 40': 'Bonde dos 40',
+        'Bonde dos Malucos': 'Bonde dos malucos',
+        'Cerol Fino': 'Cerol Fino',
+        'Terceiro Comando Puro': 'TCP',
+        'Primeiro Grupo Catarinense': 'PGC',
+        'Amigos dos amigos': 'ADA',
+        'Bonde do Magrelo': 'Bonde do magrelo',
+        'Comando Revolucionário Brasileiro de Criminalidade': 'CRBC',
+        'Primeiro Comando Puro': 'PCP'
+    };
     const opcoesTatuagem = ["Rosto", "Pescoço", "Tórax", "Ombro direito", "Ombro esquerdo", "Braço direito", "Braço esquerdo", "Antebraço direito", "Antebraço esquerdo", "Mão direita", "Mão esquerda", "Costas", "Abdômen", "Coxa direita", "Coxa esquerda", "Panturrilha direita", "Panturrilha esquerda", "Pé direito", "Pé esquerdo"];
     const opcoesCrimes = ["Roubo", "Furto", "Tráfico de drogas", "Tráfico de armas", "Homicídio doloso", "Porte Ilegal", "Estelionato", "Estupro", "Latrocínio"];
 
@@ -333,7 +353,7 @@ function Search() {
                         <select name="integrante_faccao" value={filtros.integrante_faccao} onChange={handleChange}
                             className="bg-[#161b22] border border-gray-700 rounded-md p-2 text-sm text-gray-300 outline-none focus:border-blue-500">
                             <option value="">Facção: Todas</option>
-                            {opcoesFaccao.map(f => <option key={f} value={f}>{f}</option>)}
+                            {faccoes.map(nome => <option key={nome} value={nome== 'Nenhuma' ? 'Nenhuma' : siglasFaccao[nome]}>{nome} - {nome == 'Nenhuma' ? 'N/A' : siglasFaccao[nome]}</option>)}
                         </select>
 
                         <input
@@ -396,7 +416,7 @@ function Search() {
                 </form>
 
                 <div className='flex justify-end mt-10'>
-                    <Select onValueChange={(value) => {setSize(Number(value)); setPage(1);}}>
+                    <Select onValueChange={(value) => { setSize(Number(value)); setPage(1); }}>
                         <SelectTrigger>
                             <p>Registro por página</p>
                             <SelectValue placeholder="Qtd." />
