@@ -25,7 +25,7 @@ function Teste() {
   const [notificacao, setNotificacao] = useState("");
 
   const opcoesOlhos = ["Preto", "Castanho claro", "Castanho escuro", "Verde", "Azul", "Não sei"];
-  const opcoesPele = ["Branco", "Preto", "Parda", "Vermelho", "Amarelo"];
+  const opcoesPele = ["Branca", "Preta", "Parda", "Vermelha", "Amarela"];
   const faccoes = ['Nenhuma',
     'Primeiro Comando da Capital', 'Comando Vermelho', 'Família do Norte', 'Guardiões do Estado', 'Bonde dos 40', 'Bonde dos Malucos', 'Cerol Fino', 'Terceiro Comando Puro', 'Primeiro Grupo Catarinense', 'Amigos dos amigos', 'Bonde do Magrelo', 'Comando Revolucionário Brasileiro de Criminalidade', 'Primeiro Comando Puro'
   ]
@@ -47,7 +47,7 @@ function Teste() {
   };
 
   const opcoesTatuagem = ["Rosto", "Pescoço", "Tórax", "Ombro direito", "Ombro esquerdo", "Braço direito", "Braço esquerdo", "Antebraço direito", "Antebraço esquerdo", "Mão direita", "Mão esquerda", "Costas", "Abdômen", "Coxa direita", "Coxa esquerda", "Panturrilha direita", "Panturrilha esquerda", "Pé direito", "Pé esquerdo"];
-  const opcoesCrimes = ["Roubo", "Furto", "Tráfico", "Homicídio", "Porte Ilegal", "Estelionato", "Estupro", "Latrocínio"];
+  const opcoesCrimes = ["Roubo", "Furto", "Tráfico de drogas", "Tráfico de armas", "Homicídio doloso", "Porte Ilegal", "Estelionato", "Estupro", "Latrocínio"];
 
   /* ======================= MÁSCARAS E AUXILIARES ======================= */
   const aplicarMascaraData = (value) =>
@@ -72,7 +72,7 @@ function Teste() {
             .replace(/(\d{2})(\d)/, '$1.$2')
             .replace(/(\d{3})(\d)/, '$1.$2')
             .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
-            .substring(0, 9);
+            .substring(0, 12);
     };
 
 

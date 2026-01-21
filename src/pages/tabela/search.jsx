@@ -38,7 +38,7 @@ function Search() {
     const opcoesOlhos = ["Preto", "Castanho claro", "Castanho escuro", "Verde", "Azul", "Não sei"];
     const opcoesFaccao = ["PCC", "CV", "Bonde do Magrelo", "BDM", "TCP", "FDN", "Outra"];
     const opcoesTatuagem = ["Rosto", "Pescoço", "Tórax", "Ombro direito", "Ombro esquerdo", "Braço direito", "Braço esquerdo", "Antebraço direito", "Antebraço esquerdo", "Mão direita", "Mão esquerda", "Costas", "Abdômen", "Coxa direita", "Coxa esquerda", "Panturrilha direita", "Panturrilha esquerda", "Pé direito", "Pé esquerdo"];
-    const opcoesCrimes = ["Roubo", "Furto", "Tráfico", "Homicídio", "Porte Ilegal", "Estelionato", "Estupro", "Latrocínio"];
+    const opcoesCrimes = ["Roubo", "Furto", "Tráfico de drogas", "Tráfico de armas", "Homicídio doloso", "Porte Ilegal", "Estelionato", "Estupro", "Latrocínio"];
 
 
     const abrirZoom = (url) => {
