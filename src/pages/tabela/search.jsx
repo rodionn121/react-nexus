@@ -8,6 +8,13 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import { Header } from '../../components/header/header'
 
 function Search() {
@@ -30,7 +37,7 @@ function Search() {
 
 
     const [page, setPage] = useState(1);
-    const [size] = useState(10);
+    const [size, setSize] = useState(10);
     const [total, setTotal] = useState([]);
 
 
@@ -245,7 +252,7 @@ function Search() {
     useEffect(() => {
         const timer = setTimeout(() => fetchDados(), 400);
         return () => clearTimeout(timer);
-    }, [filtros, page]);
+    }, [filtros, page, size]);
     useEffect(() => { setPage(1); }, [filtros]);
 
     return (
@@ -388,8 +395,22 @@ function Search() {
                     )}
                 </form>
 
+                <div className='flex justify-end mt-10'>
+                    <Select onValueChange={(value) => {setSize(Number(value)); setPage(1);}}>
+                        <SelectTrigger>
+                            <p>Registro por página</p>
+                            <SelectValue placeholder="Qtd." />
+                        </SelectTrigger>
+                        <SelectContent >
+                            <SelectItem value="5">5</SelectItem>
+                            <SelectItem value="10">10</SelectItem>
+                            <SelectItem value="15">15</SelectItem>
+                            <SelectItem value="20">20</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
                 {/* LISTAGEM DE RESULTADOS */}
-                <div className="mt-8 space-y-4">
+                <div className="mt-4 space-y-4">
                     {loading ? (
                         <div className="text-center py-20 text-gray-500 animate-pulse">Consultando base Nexus...</div>
                     ) : resultados.length > 0 ? (
@@ -554,7 +575,6 @@ function Search() {
                         </div>
                     )}
                 </div>
-
                 <div className='flex justify-center gap-4 items-center mt-5'>
                     <button className="bg-[#0d1117] border border-gray-800 hover:border-blue-900 text-sm text-gray-200 px-3 py-2 rounded-xl cursor-pointer" disabled={page == 1} onClick={() => setPage(p => p - 1)}>
                         Anterior
