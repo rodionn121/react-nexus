@@ -28,6 +28,14 @@ function Search() {
         info_adicional: ''
     });
 
+
+    const [page, setPage] = useState(1);
+    const [size] = useState(10);
+    const [total, setTotal] = useState([]);
+
+
+
+
     const [imagemExpandida, setImagemExpandida] = useState(null);
 
     const [isRG, setIsRG] = useState(false);
@@ -190,6 +198,8 @@ function Search() {
             if (filtros.integrante_faccao) params.append('integrante_faccao', filtros.integrante_faccao);
             if (filtros.data_nascimento) params.append('data_nascimento', filtros.data_nascimento);
             if (filtros.info_adicional) params.append('info_adicional', filtros.info_adicional);
+            params.append('page', page);
+            params.append('size', size);
 
             // Filtros de Array (só adiciona se o array não estiver vazio)
             if (filtros.crime && filtros.crime.length > 0) {
@@ -215,11 +225,14 @@ function Search() {
 
             if (!resposta.ok) {
                 setResultados([]);
+                setTotal(0)
                 return;
             }
 
             const dados = await resposta.json();
-            setResultados(Array.isArray(dados) ? dados : []);
+
+            setResultados(dados.data || []);
+            setTotal(dados.total || 0);
 
         } catch (err) {
             console.error("Erro na busca:", err);
@@ -229,7 +242,11 @@ function Search() {
         }
     }
 
-    useEffect(() => { fetchDados(); }, [filtros]);
+    useEffect(() => {
+        const timer = setTimeout(() => fetchDados(), 400);
+        return () => clearTimeout(timer);
+    }, [filtros, page]);
+    useEffect(() => { setPage(1); }, [filtros]);
 
     return (
         <div className="min-h-screen bg-black text-white antialiased font-sans">
@@ -536,6 +553,20 @@ function Search() {
                             Nenhum indivíduo localizado com os parâmetros informados.
                         </div>
                     )}
+                </div>
+
+                <div className='flex justify-center gap-4 items-center mt-5'>
+                    <button className="bg-[#0d1117] border border-gray-800 hover:border-blue-900 text-sm text-gray-200 px-3 py-2 rounded-xl cursor-pointer" disabled={page == 1} onClick={() => setPage(p => p - 1)}>
+                        Anterior
+                    </button>
+
+                    <span>
+                        {page} de {Math.ceil(total / size)}
+                    </span>
+
+                    <button className="bg-[#0d1117] border border-gray-800 hover:border-blue-900 text-sm text-gray-200 px-3 py-2 rounded-xl cursor-pointer" disabled={page >= Math.ceil(total / size)} onClick={() => setPage(p => p + 1)}>
+                        Próxima
+                    </button>
                 </div>
             </div>
         </div>
