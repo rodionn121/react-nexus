@@ -13,7 +13,7 @@ function Teste() {
     altura_aproximada: '',
     data_nascimento: '',
     cor_olho: '',
-    cidade_atuacao: '',
+    cidade_atuacao: [],
     info_adicional: '',
     tatuagem: [],
     crime: [], // Array de objetos [{nome_crime: '...'}]
@@ -48,6 +48,7 @@ function Teste() {
 
   const opcoesTatuagem = ["Rosto", "Pescoço", "Tórax", "Ombro direito", "Ombro esquerdo", "Braço direito", "Braço esquerdo", "Antebraço direito", "Antebraço esquerdo", "Mão direita", "Mão esquerda", "Costas", "Abdômen", "Coxa direita", "Coxa esquerda", "Panturrilha direita", "Panturrilha esquerda", "Pé direito", "Pé esquerdo"];
   const opcoesCrimes = ["Roubo", "Furto", "Tráfico de drogas", "Tráfico de armas", "Homicídio doloso", "Porte de armas", "Estelionato", "Estupro", "Latrocínio"];
+  const opcoesCidades = ['Mongaguá', 'Itariri', 'Pedro de Toledo', 'Barra do Turvo', 'Cajati', 'Cananéia', 'Eldorado', 'Iporanga', 'Pariquera-Açu, Iguape', 'Ilha Comprida', 'Juquiá', 'Miracatu', 'Sete Barras', 'Cubatão', 'Guarujá', 'Praia Grande', 'Santos', 'São Vicente', 'Bertioga', 'Itanhaém', 'Peruíbe', 'Jacupiranga', 'Registro']
 
   /* ======================= MÁSCARAS E AUXILIARES ======================= */
   const aplicarMascaraData = (value) =>
@@ -64,16 +65,16 @@ function Teste() {
   };
 
   const formatarRG = (rg) => {
-        if (!rg) return '---';
+    if (!rg) return '---';
 
-        return rg
-            .toString()
-            .replace(/\D/g, '')
-            .replace(/(\d{2})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
-            .substring(0, 12);
-    };
+    return rg
+      .toString()
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+      .substring(0, 12);
+  };
 
 
   const formatarDataParaISO = (data) => {
@@ -99,6 +100,7 @@ function Teste() {
     setFormData(prev => ({ ...prev, [name]: valor }));
   };
 
+
   const handleAddTatuagem = (e) => {
     const regiaoSelecionada = e.target.value;
     if (regiaoSelecionada && !formData.tatuagem.find(t => t.regiao === regiaoSelecionada)) {
@@ -114,6 +116,25 @@ function Teste() {
     setFormData(prev => ({
       ...prev,
       tatuagem: prev.tatuagem.filter(t => t.regiao !== regiao)
+    }));
+  };
+
+
+  const handleAddCidade = (e) => {
+    const cidadeSelecionada = e.target.value;
+    if (cidadeSelecionada && !formData.cidade_atuacao.find(t => t.nome_cidade === cidadeSelecionada)) {
+      setFormData(prev => ({
+        ...prev,
+        cidade_atuacao: [...prev.cidade_atuacao, { nome_cidade: cidadeSelecionada }]
+      }));
+    }
+    e.target.value = "";
+  };
+
+  const handleRemoveCidade = (nome_cidade) => {
+    setFormData(prev => ({
+      ...prev,
+      cidade_atuacao: prev.cidade_atuacao.filter(t => t.nome_cidade !== nome_cidade)
     }));
   };
 
@@ -205,7 +226,7 @@ function Teste() {
       if (response.status === 409) {
         mostrarNotificacao("Registro já cadastrado");
         return;
-    }
+      }
 
       if (response.ok) {
         mostrarNotificacao('Registro concluído com sucesso!');
@@ -217,7 +238,7 @@ function Teste() {
           altura_aproximada: '',
           data_nascimento: '',
           cor_olho: '',
-          cidade_atuacao: '',
+          cidade_atuacao: [],
           info_adicional: '',
           tatuagem: [],
           crime: [],
@@ -346,10 +367,23 @@ function Teste() {
                     {faccoes.map(nome => <option key={nome} value={siglasFaccao[nome]}>{nome}</option>)}
                   </select>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase">Cidade Atuação *</label>
-                  <input required type="text" name="cidade_atuacao" value={formData.cidade_atuacao} onChange={handleChange} className="w-full bg-[#0a0f1a] border border-gray-700 rounded-lg p-3 outline-none" />
+                  <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase">Adicionar cidade</label>
+                  <select onChange={handleAddCidade} className="w-full bg-[#0a0f1a] border border-gray-700 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600">
+                    <option value="">Selecione a região</option>
+                    {opcoesCidades.map(o => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {formData.cidade_atuacao.map((t) => (
+                      <span key={t.nome_cidade} className="flex items-center bg-blue-600/20 text-blue-400 border border-blue-600/30 px-2 py-1 rounded-md text-[10px] font-bold uppercase">
+                        {t.nome_cidade}
+                        <button type="button" onClick={() => handleRemoveCidade(t.nome_cidade)} className="ml-2 hover:text-red-500">✕</button>
+                      </span>
+                    ))}
+                  </div>
                 </div>
+
                 <div>
                   <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase">Informação adicional</label>
                   <input type="text" name="info_adicional" value={formData.info_adicional} onChange={handleChange} className="w-full bg-[#0a0f1a] border border-gray-700 rounded-lg p-3 outline-none" />
